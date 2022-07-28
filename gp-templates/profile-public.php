@@ -111,5 +111,6 @@ gp_tmpl_header();
 	</div>
 </div>
 
+<?php gp_tmpl_load( 'profile-public-history', get_defined_vars() ); ?>
 <?php
 gp_tmpl_footer();
