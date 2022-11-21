@@ -54,8 +54,15 @@ $more_links['history'] = '<a tabindex="-1" href="' . esc_url( $original_history 
 $more_links = apply_filters( 'gp_translation_row_template_more_links', $more_links, $project, $locale, $translation_set, $translation );
 
 ?>
+<nav class="nav-sidebar">
+<ul class="sidebar-tabs">
+    <li class="current" data-tab="sidebar-tab-meta-<?php echo $translation->original_id ?>">Meta</li>
+    <li data-tab="sidebar-tab-discuss-<?php echo $translation->original_id ?>">Discuss<span class="count">(5)</span></li>
+    <li data-tab="sidebar-tab-history-<?php echo $translation->original_id ?>">History<span class="count">(3)</span></li>
+    <li data-tab="sidebar-tab-other-locales-<?php echo $translation->original_id ?>">Other locales<span class="count">(12)</span></li>
+</ul>
 <div class="meta">
-	<h3><?php _e( 'Meta', 'glotpress' ); ?></h3>
+<!--	<h3>--><?php //_e( 'Meta', 'glotpress' ); ?><!--</h3>-->
 
 	<?php gp_tmpl_load( 'translation-row-editor-meta-status', get_defined_vars() ); ?>
 
@@ -163,3 +170,5 @@ $more_links = apply_filters( 'gp_translation_row_template_more_links', $more_lin
 		</dt>
 	</dl>
 </div>
+
+</nav>

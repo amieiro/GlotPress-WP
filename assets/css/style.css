@@ -1004,9 +1004,8 @@ span.context {
 }
 
 .editor .meta {
-	float: left;
-	width: 35%;
-	margin-left: 2em;
+	border: 1px solid #ccc;
+	margin-left: -1px;
 }
 
 .editor .meta dl {
@@ -1031,6 +1030,43 @@ span.context {
 	font-weight: bold;
 }
 
+.editor .nav-sidebar {
+	float: left;
+	width: 35%;
+	margin: 0;
+	padding: 0;
+	/*margin-left: 2em;*/
+	/*background-color: red;*/
+}
+
+.sidebar-tabs {
+	margin: 0px;
+	padding: 0px;
+	/*list-style: none;*/
+	/*border-bottom: 2px solid #ccc;*/
+	/*white-space: nowrap;*/
+}
+
+ul.sidebar-tabs {
+	/*padding-left: 14px !important;*/
+	margin-bottom: 0px;
+}
+
+.sidebar-tabs > li {
+	background: #eee;
+	color: #222;
+	display: inline-block;
+	padding: 10px 15px;
+	cursor: pointer;
+	margin: 0 1px 0 0;
+}
+.sidebar-tabs li.current {
+	background-color: transparent;
+	margin: 0 0 -1px -1px;
+	border: 1px solid #ccc;
+	border-bottom: 1px solid #fff;
+	font-weight: bold;
+}
 /*
  * JavaScript, errors and notices.
  */

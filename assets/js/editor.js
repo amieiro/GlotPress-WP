@@ -140,7 +140,8 @@ $gp.editor = (
 					.on( 'click', 'button.fuzzy', $gp.editor.hooks.set_status_fuzzy )
 					.on( 'click', 'button.ok', $gp.editor.hooks.ok )
 					.on( 'keydown', 'tr.editor textarea', $gp.editor.hooks.keydown )
-					.on( 'focus input', 'tr.editor textarea.foreign-text', $gp.editor.hooks.update_count );
+					.on( 'focus input', 'tr.editor textarea.foreign-text', $gp.editor.hooks.update_count )
+					.on( 'click', '.sidebar-tabs li', $gp.editor.hooks.sidebar_tab_select );
 				$( '#translations' ).tooltip( {
 					items: '.glossary-word',
 					content: function() {
@@ -434,6 +435,14 @@ $gp.editor = (
 				text_area.focus();
 				text_area[ 0 ].selectionEnd = cursorPos + 1;
 			},
+			sidebar_tab_select: function( $tab ) {
+				var tabId = $tab.attr( 'data-tab' );
+				$tab.siblings().removeClass( 'current' );
+				$tab.parents( '.sidebar-tabs ' ).find( '.helper' ).removeClass( 'current' );
+
+				$tab.addClass( 'current' );
+				$( '#' + tabId ).addClass( 'current' );
+			},
 			hooks: {
 				show: function() {
 					$gp.editor.show( $( this ) );
@@ -497,6 +506,11 @@ $gp.editor = (
 				},
 				set_priority: function() {
 					$gp.editor.set_priority( $( this ) );
+					return false;
+				},
+				sidebar_tab_select: function() {
+					console.log('adfasfd');
+					$gp.editor.sidebar_tab_select( $( this ) );
 					return false;
 				},
 			},
