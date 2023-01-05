@@ -121,7 +121,11 @@ function gp_link_project_get( $project_or_path, $text, $attrs = array() ) {
  *                                           to determine the classes for the link.
  */
 function gp_link_project( $project_or_path, $text, $attrs = array() ) {
-	echo gp_link_project_get( $project_or_path, $text, $attrs );
+	if ( GP::$project->by_path( $project_or_path->slug ) ) {
+		echo gp_link_project_get( $project_or_path, $text, $attrs );
+	} else {
+		echo esc_html( $project_or_path->name );
+	}
 }
 
 /**
@@ -136,6 +140,10 @@ function gp_link_project( $project_or_path, $text, $attrs = array() ) {
  */
 function gp_link_project_edit_get( $project, $text = '', $attrs = array() ) {
 	if ( ! GP::$permission->current_user_can( 'write', 'project', $project->id ) ) {
+		return '';
+	}
+	$project = apply_filters( 'gp_link_project_edit_get', $project );
+	if ( is_null( $project ) ) {
 		return '';
 	}
 	$text = $text ? $text : __( 'Edit', 'glotpress' );
@@ -171,6 +179,10 @@ function gp_link_project_delete_get( $project, $text = '', $attrs = array() ) {
 	if ( ! GP::$permission->current_user_can( 'delete', 'project', $project->id ) ) {
 		return '';
 	}
+	$project = apply_filters( 'gp_link_project_delete_get', $project );
+	if ( is_null( $project ) ) {
+		return '';
+	}
 	$text = $text ? $text : __( 'Delete', 'glotpress' );
 	return gp_link_get( gp_url_project( $project, '-delete' ), $text, gp_attrs_add_class( $attrs, 'action edit' ) );
 }
@@ -188,6 +200,45 @@ function gp_link_project_delete_get( $project, $text = '', $attrs = array() ) {
  */
 function gp_link_project_delete( $project, $text = '', $attrs = array() ) {
 	echo gp_link_project_delete_get( $project, $text, $attrs );
+}
+
+/**
+ * Creates an HTML link to automatically import the translation for this project.
+ *
+ * @since 4.0.0
+ *
+ * @param GP_Project $project The project to link to.
+ * @param string     $text    Optional. The text to use for the link. Default 'Delete'.
+ * @param array      $attrs   Optional. Additional attributes to use to determine the classes for the link.
+ * @return string The HTML link.
+ */
+function gp_link_project_import_get( $project, $text = '', $attrs = array() ) {
+	if ( ! GP::$permission->current_user_can( 'import', 'project', $project->id ) ) {
+		return '';
+	}
+	$project = apply_filters( 'gp_link_project_import_get', $project );
+	if ( is_null( $project ) ) {
+		return '';
+	}
+	$text = $text ? $text : __( 'Import', 'glotpress' );
+	// todo: the URL is not correct.
+	return gp_link_get( gp_url_project( $project, '-import' ), $text, gp_attrs_add_class( $attrs, 'action edit' ) );
+}
+
+/**
+ * Outputs an HTML link to automatically import the translation for this project.
+ *
+ * @since 4.0.0
+ *
+ * @see gp_link_project_import_get()
+ *
+ * @param GP_Project $project The project to link to.
+ * @param string     $text    Optional. The text to use for the link.
+ * @param array      $attrs   Optional. Additional attributes to use to determine the classes for the link.
+ */
+function gp_link_project_import( $project, $text = '', $attrs = array() ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo gp_link_project_import_get( $project, $text, $attrs );
 }
 
 /**

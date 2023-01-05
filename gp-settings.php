@@ -61,6 +61,8 @@ require_once GP_PATH . GP_INC . 'default-filters.php';
 require_once ABSPATH . WPINC . '/pomo/mo.php';
 require_once ABSPATH . WPINC . '/pomo/po.php';
 
+require_once GP_PATH . GP_INC . 'local-own-translator.php';
+
 if ( ! class_exists( 'GP_Locale' ) || ! class_exists( 'GP_Locales' ) ) {
 	require_once GP_LOCALES_PATH . 'locales.php';
 }

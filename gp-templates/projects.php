@@ -12,6 +12,7 @@ gp_tmpl_header();
 				<?php gp_link_project( $project, esc_html( $project->name ) ); ?>
 				<?php gp_link_project_edit( $project, null, array( 'class' => 'bubble' ) ); ?>
 				<?php gp_link_project_delete( $project, null, array( 'class' => 'bubble' ) ); ?>
+				<?php gp_link_project_import( $project, null, array( 'class' => 'bubble' ) ); ?>
 			</li>
 		<?php endforeach; ?>
 	</ul>
