@@ -52,19 +52,18 @@ class GP_Local_Own_Translator {
 	public function add_installed_themes( array $projects, int $project_id ): array {
 		$themes = $projects;
 		if ( get_option( 'gp_local_translator' ) ) {
-			if ( ! function_exists( 'get_plugins' ) ) {
+			if ( ! function_exists( 'wp_get_themes' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/theme.php';
 			}
 			$local_themes = wp_get_themes();
 			foreach ( $local_themes as $local_theme ) {
-				if ( empty( $local_theme['TextDomain'] ) ) {
-					$local_theme['TextDomain'] = sanitize_title( $local_theme['Name'] );
+				if ( empty( $local_theme->get( 'TextDomain' ) ) ) {
+					$local_theme->TextDomain = sanitize_title( $local_theme->get( 'Name' ) );
 				}
 				$theme       = new GP_Project();
-				$theme->name = __( 'Theme: ' ) . $local_theme['Name'];
-				$theme->slug = $local_theme['TextDomain'];
-				$theme->path = $local_theme['TextDomain'];
-
+				$theme->name = __( 'Theme: ' ) . $local_theme->get( 'Name' );
+				$theme->slug = $local_theme->get( 'TextDomain' );
+				$theme->path = $local_theme->get( 'TextDomain' );
 				$themes[] = $theme;
 			}
 		}

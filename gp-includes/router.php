@@ -97,6 +97,8 @@ class GP_Router {
 			"get:/$project/import-originals"                  => array( 'GP_Route_Project', 'import_originals_get' ),
 			"post:/$project/import-originals"                 => array( 'GP_Route_Project', 'import_originals_post' ),
 
+			"get:/$project/local-import-originals"                  => array( 'GP_Route_Project', 'local_import_originals_get' ),
+
 			"get:/$project/-edit"                             => array( 'GP_Route_Project', 'edit_get' ),
 			"post:/$project/-edit"                            => array( 'GP_Route_Project', 'edit_post' ),
 

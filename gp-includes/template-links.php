@@ -213,6 +213,7 @@ function gp_link_project_delete( $project, $text = '', $attrs = array() ) {
  * @return string The HTML link.
  */
 function gp_link_project_import_get( $project, $text = '', $attrs = array() ) {
+	// todo: review this permission.
 	if ( ! GP::$permission->current_user_can( 'import', 'project', $project->id ) ) {
 		return '';
 	}
@@ -221,8 +222,7 @@ function gp_link_project_import_get( $project, $text = '', $attrs = array() ) {
 		return '';
 	}
 	$text = $text ? $text : __( 'Import', 'glotpress' );
-	// todo: the URL is not correct.
-	return gp_link_get( gp_url_project( $project, '-import' ), $text, gp_attrs_add_class( $attrs, 'action edit' ) );
+	return gp_link_get( gp_url_project( $project, 'local-import-originals' ), $text, gp_attrs_add_class( $attrs, 'action edit' ) );
 }
 
 /**

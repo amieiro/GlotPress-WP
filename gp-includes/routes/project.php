@@ -573,4 +573,86 @@ class GP_Route_Project extends GP_Route_Main {
 		$this->redirect( gp_url_project( $new_project ) );
 	}
 
+	public function local_import_originals_get( $project_path ) {
+		// todo: check if the current user can import strings.
+		$project = GP::$project->by_path( $project_path );
+
+		if ( ! $project ) {
+			// Check if the plugin or theme is installed.
+			$element = $this->is_element_installed( $project_path );
+			if ( ! $element ) {
+				return $this->die_with_404();
+			}
+			// Create the translation project for the current locale.
+			$project = $this->create_new_project( $element );
+
+		}
+
+//		$kind = 'originals';
+//		$this->tmpl( 'project-import', get_defined_vars() );
+	}
+
+	/**
+	 * Checks if the plugin or theme is installed.
+	 *
+	 * @param string $project_path
+	 *
+	 * @return bool|array
+	 */
+	private function is_element_installed( string $project_path ) {
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$local_plugins = get_plugins();
+		foreach ( $local_plugins as $local_plugin ) {
+			if ( empty( $local_plugin['TextDomain'] ) ) {
+				$local_plugin['TextDomain'] = sanitize_title( $local_plugin['Name'] );
+			}
+			if ( $local_plugin['TextDomain'] === $project_path ) {
+				return $local_plugin;
+			}
+		}
+
+		if ( ! function_exists( 'wp_get_themes' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/theme.php';
+		}
+		$local_themes = wp_get_themes();
+		foreach ( $local_themes as $local_theme ) {
+			if ( empty( $local_theme->get( 'TextDomain' ) ) ) {
+				$local_theme->TextDomain = sanitize_title( $local_theme->get( 'Name' ) );
+			}
+			if ( $local_theme->get( 'TextDomain' ) === $project_path ) {
+				return $local_theme;
+			}
+		}
+
+		return false;
+	}
+
+	private function create_new_project( $element ): ?GP_Project {
+		dd($element);
+		$new_project = new GP_Project();
+		$new_project->name = $element['Name'];
+
+		if ( $this->invalid_and_redirect( $new_project ) ) {
+			return null;
+		}
+
+		$new_project = new GP_Project( $post );
+
+		if ( $this->invalid_and_redirect( $new_project ) ) {
+			return null;
+		}
+
+		$project = GP::$project->create_and_select( $new_project );
+
+		if ( ! $project ) {
+			$project        = new GP_Project();
+			$this->errors[] = __( 'Error in creating project!', 'glotpress' );
+			$this->tmpl( 'project-new', get_defined_vars() );
+		} else {
+			$this->notices[] = __( 'The project was created!', 'glotpress' );
+			$this->redirect( gp_url_project( $project ) );
+		}
+	}
 }
