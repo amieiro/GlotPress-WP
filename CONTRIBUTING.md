@@ -111,3 +111,4 @@ These should be enough for us to move forward.
 ## Finally...
 
 Thanks! Working on GlotPress should be fun! If you find any of this hard to figure out, let us know so we can improve our process or documentation! You can also find us in the [GlotPress channel on the WordPress Slack](https://wordpress.slack.com/messages/glotpress/). If you don't have access to it yet, [you can sign up for Slack access](https://make.wordpress.org/chat/).
+Añado una línea de prueba.
